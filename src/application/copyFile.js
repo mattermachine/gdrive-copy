@@ -34,9 +34,8 @@ function copyFile(file, map) {
         }
         
         catch(err) {
-            log(null, [err.message, err.fileName, err.lineNumber]);
-            return err;
-        }    
+            return handleCopyFileError(err);
+        }
         
     } else {
         try {
@@ -55,9 +54,20 @@ function copyFile(file, map) {
         }
         
         catch(err) {
-            log(null, [err.message, err.fileName, err.lineNumber]);
-            return err;   
-        }        
+            return handleCopyFileError(err);
+        }
     }
 
+}
+
+function handleCopyFileError (err) {
+    // if the rate limit is exceeded, wait a second or more and try again
+    // TODO: test the below code
+    if (err.message === 'User rate limit exceeded') {
+        Utilities.sleep(1000);
+        return copyFile(file, map);
+    } else {
+        log(null, [err.message, err.fileName, err.lineNumber]);
+        return err;
+    } 
 }
