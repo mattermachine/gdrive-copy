@@ -101,14 +101,10 @@ gulp.task('js', ['templates'], function() {
 
 
 gulp.task('gs', function() {
-    // jshint and minify application.gs
-    return gulp.src('./src/application/**/*.js')
-        .pipe(changed('dist'))
+    // just lint for now
+    return gulp.src('./lib/**/*.js')
         .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(concat('application.gs'))
-        .pipe(gulp.dest('dist'));
-    
+        .pipe(jshint.reporter('default'));
 })
 
 
