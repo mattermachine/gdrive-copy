@@ -108,4 +108,9 @@ describe('Properties', function() {
         assert.deepEqual(props._mapping, Object.assign(obj, {'three': 'THREE'}));
         assert.equal(props.getMapping('three'), 'THREE');
     });
+
+    it('should be able to run public methods via prototype', function () {
+        Properties.prototype.addMapping('three', 'THREE');
+        assert.equal(Properties.prototype.getMapping('three'), 'THREE');
+    })
 })
