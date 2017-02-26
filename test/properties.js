@@ -98,5 +98,14 @@ describe('Properties', function() {
 
         // the parsed version should be equal to the original
         assert.deepEqual(parsedFileObj, fileObj);
-    })
+    });
+
+    it('should be able to add a new key/value pair', function () {
+        var props = new Properties();
+        var obj = { 'one': 'ONE', 'two': 'TWO' };
+        props._mapping = obj;
+        props.addMapping('three', 'THREE');
+        assert.deepEqual(props._mapping, Object.assign(obj, {'three': 'THREE'}));
+        assert.equal(props.getMapping('three'), 'THREE');
+    });
 })
