@@ -230,9 +230,7 @@ module.exports = {
                 .deleteAllTriggers();
         });
     }
-
-
-}
+};
 
 
 
