@@ -121,4 +121,4 @@ describe('Properties', function() {
         var props = new Properties();
         assert.equal(props.getTimezone(), 'GMT');
     });
-})
+});
