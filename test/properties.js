@@ -112,5 +112,13 @@ describe('Properties', function() {
     it('should be able to run public methods via prototype', function () {
         Properties.prototype.addMapping('three', 'THREE');
         assert.equal(Properties.prototype.getMapping('three'), 'THREE');
-    })
+    });
+
+    it('should default to "GMT" timezone', function () {
+        assert.equal(Properties.prototype.getTimezone(), 'GMT');
+        Properties.prototype.setTimezone('GMT-7');
+        assert.equal(Properties.prototype.getTimezone(), 'GMT-7');
+        var props = new Properties();
+        assert.equal(props.getTimezone(), 'GMT');
+    });
 })
