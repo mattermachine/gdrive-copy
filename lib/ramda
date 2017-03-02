@@ -1,0 +1,12 @@
+This software uses the [ramda](http://ramdajs.com/) library.
+
+However, since it is hosted with Google Apps Script, it is not possible to `require` it
+like a normal person would in a normal web app.
+
+So, the workaround: In every file that uses ramda, there is a declaration that looks like this:
+
+`var R = require ? require('ramda') : R;
+
+R is exported from [the source code](https://github.com/ramda/ramda/blob/master/dist/ramda.min.js), 
+so when deploying, it is possible to just copy and paste the ramda distributino code into a separate 
+`gs` file.  But, in local development, this statement allows ramda to be `require`d and used normally.
