@@ -14,11 +14,11 @@ describe('Timer', function() {
     });
 
     it('should return true with max time is reached', function (done) {
-        var timer = new Timer(300);
+        var timer = new Timer(200);
         setTimeout(function() {
             assert.equal(timer.isTimeUp(), true);
             done();
-        }, 400);
+        }, 300);
     });
 
     it('should return false if max time is not reached', function (done) {
@@ -27,5 +27,13 @@ describe('Timer', function() {
             assert.equal(timer.isTimeUp(), false);
             done();
         }, 100);
+    });
+
+    it('should default to "GMT" timezone', function () {
+        assert.equal(Timer.prototype.getTimezone(), 'GMT');
+        Timer.prototype.setTimezone('GMT-7');
+        assert.equal(Timer.prototype.getTimezone(), 'GMT-7');
+        var timer = new Timer();
+        assert.equal(timer.getTimezone(), 'GMT');
     });
 });
