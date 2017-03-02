@@ -5,24 +5,6 @@ var parseProps = require('../lib/properties.js').parseProps;
 var stringifyProps = require('../lib/properties.js').stringifyProps;
 
 describe('Properties', function() {
-    it('should detect when leftover items exist', function () {
-        var props = new Properties();
-        assert.equal(props.leftoverItemsExist(), false);
-
-        props.addLeftovers(['one', 'two', 'three']);
-        assert.equal(props.leftoverItemsExist(), false);
-
-        props.addLeftovers({
-            items: []
-        });
-        assert.equal(props.leftoverItemsExist(), false);
-
-        props.addLeftovers({
-            items: ['one', 'two', 'three']
-        });
-        assert.equal(props.leftoverItemsExist(), true);
-    });
-
     it('should be able to apply a function to all props in an object', function() {
         function addTail (item) {
             return item + ' added tail!'
