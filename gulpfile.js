@@ -41,12 +41,20 @@ gulp.task('watch', function(){
 });
 
 
-// TODO: This would be cool to get up and running ...
+
+
+gulp.task('templates', function() {
+    return gulp.src(['src/templates/icons/*.html'])
+        .pipe(hoganCompile('templates.js', {wrapper: 'commonjs', hoganModule: 'hogan.js'}))
+        .pipe(gulp.dest('src/js/'));
+});
+
+
 gulp.task('generate-test-site', ['build'], function() {
     return gulp.src('src/templates/test.html')
         .pipe(gulpHogan())
-        .pipe(concat('index.html'))
-        .pipe(gulp.dest('test'));
+        .pipe(concat('test.html'))
+        .pipe(gulp.dest('dist'));
 });
 
 
@@ -102,6 +110,7 @@ gulp.task('gs', function() {
 
 gulp.task('css', function() {
     // process css
+    
     return gulp.src('./src/css/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer({browsers: ['last 10 versions']}))
