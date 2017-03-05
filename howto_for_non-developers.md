@@ -32,7 +32,9 @@ npm install
 
 ## Step 4: Edit code
 
-All uncompiled source code is located in the `src` folder.  The `application` directory houses the Google Apps Script files that actually access Google Drive.
+The front-end code is kept in the `src` directory.
+
+The back-end Google Apps Script code is in the `lib` directory.  Remember that GAS makes all code in the global scope, regardless of it being held in different files.
 
 ## Step 5: Compile code
 
@@ -40,18 +42,24 @@ This app uses Gulp to build and bundle the app.  In the Gulpfile, you can set th
 or you can leave it `false` and things will not be compressed. 
 
 Simply run
+
 ```
-gulp build
+npm run build
 ```
+
 and the files will be compiled into the `dist` directory.  Alternately, you can run 
+
 ```
-gulp watch
+npm run watch
 ```
+
 before editing files, and the files will be compiled in realtime whenever changes are made.
 
 ## Step 6: Upload code
 
-This app makes use of the free Google Apps Script service, so all you need to do is create a new Google Apps Script file from within your Google Drive, and upload the contents of the files in `dist` into the appropriate files.  You may need to create additional files via `File > New > Script | HTML file`.
+This app makes use of the free Google Apps Script service, so all you need to do is create a new Google Apps Script file from within your Google Drive, and upload the contents of the files in `dist` into the appropriate files.  You may need to create additional files via `File` > `New` > `Script | HTML file`.
+
+You will also need to copy each of the files from `lib` into your Google Apps Script project.  You can either copy all the different file contents into a single `.gs` file, or you can copy each file into its own `.gs` file.
    
 ## Step 7: Deploy as web app
 
