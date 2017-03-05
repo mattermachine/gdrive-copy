@@ -7,6 +7,18 @@ var eventListeners = require('./event-listeners');
 // event bindings
 $(function() {
 
+    // define tabs
+    var myTabs = tabs({
+        // container
+        el: '#tabs',
+        // link selector
+        tabNavigationLinks: '.c-tabs-nav__link',
+        // tab container selector
+        tabContentContainers: '.c-tab'
+    });
+    // initialize tabs (bind navigation)
+    myTabs.init();
+
     eventListeners.addNavListeners();
     eventListeners.addDeleteTriggerButtonListeners();
 

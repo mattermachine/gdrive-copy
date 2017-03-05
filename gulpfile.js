@@ -41,27 +41,17 @@ gulp.task('watch', function(){
 });
 
 
-
-
-gulp.task('templates', function() {
-    return gulp.src(['src/templates/forms/*.html', 'src/templates/icons/*.html'])
-        .pipe(hoganCompile('templates.js', {wrapper: 'commonjs', hoganModule: 'hogan.js'}))
-        .pipe(gulp.dest('src/js/'));
-
-    
+// TODO: This would be cool to get up and running ...
+gulp.task('generate-test-site', ['build'], function() {
+    return gulp.src('src/templates/test.html')
+        .pipe(gulpHogan())
+        .pipe(concat('index.html'))
+        .pipe(gulp.dest('test'));
 });
 
 
-// gulp.task('generate-test-site', ['build'], function() {
-//     return gulp.src('src/templates/test.html')
-//         .pipe(gulpHogan())
-//         .pipe(concat('index.html'))
-//         .pipe(gulp.dest('test'));
-// });
 
-
-
-gulp.task('js', ['templates'], function() {
+gulp.task('js', function() {
     globby(['./src/js/*.js']).then(function(entries) {
         var b = browserify({
             entries: entries,
@@ -112,7 +102,6 @@ gulp.task('gs', function() {
 
 gulp.task('css', function() {
     // process css
-    
     return gulp.src('./src/css/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer({browsers: ['last 10 versions']}))
