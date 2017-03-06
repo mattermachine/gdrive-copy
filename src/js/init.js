@@ -3,6 +3,7 @@ var picker = require('./picker');
 var templates = require('./templates.js');
 var icons = require('./icons');
 var eventListeners = require('./event-listeners');
+var tabs = require('./tabs.js');
 
 // event bindings
 $(function() {
