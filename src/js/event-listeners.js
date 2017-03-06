@@ -20,36 +20,36 @@ module.exports = {
      */
     'addNavListeners': function() {
         
-        $('#resume-button').click(function() {
-            $("#put-forms-here").html(templates.resume.render({}, icons));
-            $(".btn--nav").removeClass("active");
-            $(this).addClass("active");
-            module.exports.addResumeFormListeners();
-        }); 
+        // $('#resume-button').click(function() {
+        //     $("#put-forms-here").html(templates.resume.render({}, icons));
+        //     $(".btn--nav").removeClass("active");
+        //     $(this).addClass("active");
+        //     module.exports.addResumeFormListeners();
+        // }); 
 
-        $('#start-button').click(function(e) {
-            $("#put-forms-here").html(templates.start.render({}, icons));
-            $(".btn--nav").removeClass("active");
-            $(this).addClass("active");
-            module.exports.addStartFormListeners();
-        });
+        // $('#start-button').click(function(e) {
+        //     $("#put-forms-here").html(templates.start.render({}, icons));
+        //     $(".btn--nav").removeClass("active");
+        //     $(this).addClass("active");
+        //     module.exports.addStartFormListeners();
+        // });
 
-        $('#stop-button').click(function(e) {
-            $("#put-forms-here").html(templates.pause.render({'confirmed': false}));
-            $(".btn--nav").removeClass("active");
-            $(this).addClass("active");
+        // $('#stop-button').click(function(e) {
+        //     $("#put-forms-here").html(templates.pause.render({'confirmed': false}));
+        //     $(".btn--nav").removeClass("active");
+        //     $(this).addClass("active");
 
-            $('#stop-confirm-button').click(function() {
-                $("#put-forms-here").html(templates.pause.render({'confirmed': true}));
-                google.script.run.setStopFlag();
-            });
-        });
+        //     $('#stop-confirm-button').click(function() {
+        //         $("#put-forms-here").html(templates.pause.render({'confirmed': true}));
+        //         google.script.run.setStopFlag();
+        //     });
+        // });
 
-        $('#faq-button').click(function() {
-            $("#put-forms-here").html(templates.faq.render({}, icons));
-            $(".btn--nav").removeClass("active");
-            $(this).addClass("active");
-        });
+        // $('#faq-button').click(function() {
+        //     $("#put-forms-here").html(templates.faq.render({}, icons));
+        //     $(".btn--nav").removeClass("active");
+        //     $(this).addClass("active");
+        // });
     },
 
 
