@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var Files = require('../lib/files.js').Files;
+var R = require('ramda');
 
 describe('Files', function() {
     it('should tell when an object is a native Google Type', function () {
@@ -12,23 +13,33 @@ describe('Files', function() {
         assert.equal(files.isNativeGoogleType(item), true);
     });
 
-    it('should detect when leftover items exist', function () {
-        // initialized Files should not have a fileList
-        var files = new Files();
-        assert.equal(files.fileListExists(), false);
-
-        // fileList should be an array with values
-        files.setFileList(['one', 'two', 'three']);
-        assert.equal(files.fileListExists(), true);
-
-        // fileList should not be an object, and it should not have a property `items`
-        files.setFileList({
-            items: []
+    describe('fileList', function () {
+        it('should be initialized without an empty fileList', function () {
+            // initialized Files should not have a fileList
+            var files = new Files();
+            assert.equal(files.fileListExists(), false);
         });
-        assert.equal(files.fileListExists(), false);
 
-        // empty list should be false
-        files.setFileList([]);
-        assert.equal(files.fileListExists(), false);
+        it('should exist when fileList is a non-empty array', function () {
+            var files = new Files();
+            files.setFileList(['one', 'two', 'three']);
+            assert.equal(files.fileListExists(), true);
+        });
+
+        it('should be of type Array', function () {
+            var files = new Files();
+            files.setFileList({
+                file1: 'file1',
+                file2: 'file2',
+                items: ['one', 'two', 'three']
+            });
+            assert.equal(files.fileListExists(), false);
+        })
+
+        it('should be required to have at least one element', function () {
+            var files = new Files();
+            files.setFileList([]);
+            assert.equal(files.fileListExists(), false);
+        });
     });
 });
