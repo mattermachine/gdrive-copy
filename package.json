@@ -35,6 +35,8 @@
   "scripts": {
     "watch": "gulp watch",
     "build": "gulp build",
+    "test-site": "gulp generate-test-site",
+    "test-site-watch": "gulp watch-test-site",
     "test": "mocha"
   },
   "repository": {

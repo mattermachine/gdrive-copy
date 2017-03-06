@@ -26,7 +26,7 @@ gulp.task('default', function(){
     // Default task
 });
 
-gulp.task('build', ['templates', 'jslint', 'js','gs', 'html','css', 'cutestrap'], function() {
+gulp.task('build', ['templates', 'jslint', 'js','gs', 'css', 'cutestrap', 'html'], function() {
     if (isProd) {
         buildImages();
     }
@@ -35,11 +35,16 @@ gulp.task('build', ['templates', 'jslint', 'js','gs', 'html','css', 'cutestrap']
 gulp.task('watch', function(){ 
     var watcher = gulp.watch(['./src/**/*'], ['build']);
     watcher.on('change', function (event) {
-        console.log('Event type: ' + event.type); // added, changed, or deleted
-        console.log('Event path: ' + event.path);
+        console.log('Event:', event.path, event.type); // added, changed, or deleted
     });
 });
 
+gulp.task('watch-test-site', function(){ 
+    var watcher = gulp.watch(['./src/**/*'], ['generate-test-site']);
+    watcher.on('change', function (event) {
+        console.log('Event:', event.path, event.type); // added, changed, or deleted
+    });
+});
 
 
 
@@ -50,7 +55,7 @@ gulp.task('templates', function() {
 });
 
 
-gulp.task('generate-test-site', ['build'], function() {
+gulp.task('generate-test-site', ['templates', 'css', 'cutestrap', 'js'], function() {
     return gulp.src('src/templates/test.html')
         .pipe(gulpHogan())
         .pipe(concat('test.html'))
@@ -60,7 +65,7 @@ gulp.task('generate-test-site', ['build'], function() {
 
 
 gulp.task('js', function() {
-    globby(['./src/js/*.js']).then(function(entries) {
+    globby(['./src/js/init.js']).then(function(entries) {
         var b = browserify({
             entries: entries,
             baseDir: './src/js',
