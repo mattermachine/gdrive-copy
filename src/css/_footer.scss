@@ -1,11 +1,19 @@
 @import "my-variables";
 
-.push {
-    height: $footer-height;
+.footer-spacer {
+    display: block;
+    height: $footer-height * 2; 
+    width: 100%;
 }
+
 footer {
+    box-sizing: border-box;
     padding: 1em 0 1em 0;
-    background: none;
+    background: $gray4;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     height: $footer-height;
 }
 

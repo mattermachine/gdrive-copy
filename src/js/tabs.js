@@ -9,11 +9,9 @@
  * @param {Object} options The options hash
  */ 
 module.exports = function(options) {
-  var el = document.querySelector(options.el);
-  var tabNavigationLinks = el.querySelectorAll(options.tabNavigationLinks);
-  var tabContentContainers = el.querySelectorAll(options.tabContentContainers);
+  var tabNavigationLinks = document.querySelectorAll(options.tabNavigationLinks);
+  var tabContentContainers = document.querySelectorAll(options.tabContentContainers);
   var activeIndex = 0;
-  var initCalled = false;
 
   /**
    * init
@@ -22,17 +20,15 @@ module.exports = function(options) {
    *   the component, and attaching event listeners to each of the nav items.
    *   Returns nothing.
    */
-  this.init = function() {
-    if (!initCalled) {
-      initCalled = true;
-      el.classList.remove('no-js');
-
-      for (var i = 0; i < tabNavigationLinks.length; i++) {
-        var link = tabNavigationLinks[i];
-        console.log(link);
-        handleClick(link, i);
-      }
+  var init = function() {
+    for (var i = 0; i < tabNavigationLinks.length; i++) {
+      var link = tabNavigationLinks[i];
+      console.log(link);
+      handleClick(link, i);
     }
+
+    // Go to the "start" tab.  About is 0, Start is 1
+    goToTab(1); 
   };
 
   /**
@@ -58,10 +54,10 @@ module.exports = function(options) {
    */
   var goToTab = function(index) {
     if (index !== activeIndex && index >= 0 && index <= tabNavigationLinks.length) {
-      tabNavigationLinks[activeIndex].classList.remove('is-active');
-      tabNavigationLinks[index].classList.add('is-active');
-      tabContentContainers[activeIndex].classList.remove('is-active');
-      tabContentContainers[index].classList.add('is-active');
+      tabNavigationLinks[activeIndex].classList.remove('active');
+      tabNavigationLinks[index].classList.add('active'); 
+      tabContentContainers[activeIndex].classList.remove('active');
+      tabContentContainers[index].classList.add('active');
       activeIndex = index;
     }
   };
@@ -69,5 +65,8 @@ module.exports = function(options) {
   /**
    * Returns init and goToTab
    */
-  return this;
+  return {
+    init: init,
+    goToTab: goToTab
+  };
 };

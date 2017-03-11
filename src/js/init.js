@@ -5,21 +5,19 @@
 // var eventListeners = require('./event-listeners');
 var tabs = require('./tabs.js');
 
-// event bindings
-// TODO: fix how tabs are initialized
-// could possibly just move it all into this file...
 $(function() {
     // define tabs 
-    var myTabs = new tabs({
-        // container
-        el: '#container',
+    var myTabs = tabs({
         // link selector
         tabNavigationLinks: '.tabLink',
         // tab container selector
         tabContentContainers: '.tab'
     });
     // initialize tabs (bind navigation)
+    console.log('init will be called');
     myTabs.init();
+    console.log('init called');
+
 
 
     // eventListeners.addNavListeners();

@@ -23,11 +23,12 @@
     </head>
 
     <body>
-        {{> header }}
-        
-        {{> main }}
-        
-        {{> footer }} 
+        <div class='relative-wrapper'>
+            {{> header }}
+            {{> main }}
+            <div class='footer-spacer'></div>
+            {{> footer }} 
+        </div>
     </body>
 </html>
 

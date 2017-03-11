@@ -11,9 +11,14 @@ so that they can be viewed locally without dealing with the GAS HTMLService-->
         {{> ../../dist/js }}
     </head>
 
-    {{> header }}
-    {{> main }}
-    {{> footer }} 
+    <body>
+        <div class='relative-wrapper'>
+            {{> header }}
+            {{> main }}
+            <div class='footer-spacer'></div>
+            {{> footer }} 
+        </div>
+    </body>
 </html>
 
 
