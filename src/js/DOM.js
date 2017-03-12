@@ -68,7 +68,7 @@ module.exports = {
         var overlayMessage = document.querySelectorAll('.overlay__message');
         overlay.style.display = 'block';
         overlayMessage.innerText = message;
-    }
+    },
 
     /**
      * Hide the overlay

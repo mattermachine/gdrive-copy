@@ -54,7 +54,7 @@ gulp.task('generate-test-site', ['css', 'cutestrap', 'js'], function() {
 });
 
 gulp.task('js', function() {
-    globby(['./src/js/init.js']).then(function(entries) {
+    globby(['./src/js/*.js']).then(function(entries) {
         var b = browserify({
             entries: entries,
             baseDir: './src/js',

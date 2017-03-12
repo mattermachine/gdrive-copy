@@ -29,6 +29,10 @@ main {
     margin-bottom: -$footer-height;
 }
 
+.overlay {
+    display: none;
+}
+
 a {
     color: $primary--darker;
     

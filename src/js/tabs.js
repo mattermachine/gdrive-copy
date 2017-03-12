@@ -23,7 +23,6 @@ module.exports = function(options) {
   var init = function() {
     for (var i = 0; i < tabNavigationLinks.length; i++) {
       var link = tabNavigationLinks[i];
-      console.log(link);
       handleClick(link, i);
     }
 
