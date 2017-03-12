@@ -43,13 +43,17 @@ button {
     color: #fff;
     margin: 0;
     line-height: 0em;
-    padding: 2.0em 1em 2.0em 1em;
+    padding: 1em 1em 0.5em 1em;
     border: 0px;
+    border-bottom: 0.5em solid $primary;
     background: none;
+    box-sizing: border-box;
 
     &:hover {
-      background: #fff;
-      color: $gray3; // same as nav background in _header   
+      // padding-bottom: 1em;
+      border-color: $body-background;
+      // border-bottom: 0.5em solid $body-background;
+      // color: $gray3; // same as nav background in _header   
       transition: all 0.25s ease;
     }
 
@@ -64,6 +68,12 @@ button {
     &.active {
       background: #fff;
       color: $gray3; // same as nav background in _header
+      border-color: $body-background;
+
+      // &:hover {
+      //   padding-bottom: 1.5em;
+      //   border: 0px;
+      // }
     } 
   }
 }

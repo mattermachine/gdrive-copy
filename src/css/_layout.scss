@@ -6,9 +6,9 @@
 }
 
 html, body {
+    background-color: $body-background;
     height: 100%;
     margin: 0;
-    background: $body-background;
 }
 
 .relative-wrapper {
@@ -19,7 +19,6 @@ html, body {
 main {
     // min-height: 100%;
     width: 100%;
-    background: #fff;
 }
 
 .container {

@@ -2,17 +2,6 @@
 
 <header>
     <section class="header-container">
-        
-
-        <!--Header and Icon-->
-        <span class="header-container__icon">{{> icons/header-icon }}</span>
-        <span class="header-container__headings">
-            <h1>Copy Folder <small>and all its contents</small></h1>
-        </span>
-
-    </section>
-
-    <nav>
         <!--Change Account link-->
         <div class="change-account">
             <div class="change-account__box">
@@ -27,6 +16,16 @@
                 {{/isProd}}
             </div>
         </div>
+
+        <!--Header and Icon-->
+        <span class="header-container__icon">{{> icons/header-icon }}</span>
+        <span class="header-container__headings">
+            <h1>Copy Folder <small>and all its contents</small></h1>
+        </span>
+
+    </section>
+
+    <nav>
         <section class="header-container">
             <button role="button" data-template="about" class="tabLink btn--nav" id="about-button" href="#">About</button>
             <button role="button" data-template="start" class="tabLink active btn--nav" id="start-button" href="#">Start</button>
