@@ -47,7 +47,7 @@ module.exports = {
         $("#resumeForm").submit(function( event ) {
             event.preventDefault();
 
-            DOM.showProcessingOverlay('Resuming previous copy');
+            DOM.showProcessingOverlay('Resuming previous copy (this should just take a few moments)');
             
             var errormsg;
 
