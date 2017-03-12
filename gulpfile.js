@@ -26,7 +26,7 @@ gulp.task('default', function(){
     // Default task
 });
 
-gulp.task('build', ['templates', 'jslint', 'js','gs', 'css', 'cutestrap', 'html'], function() {
+gulp.task('build', ['jslint', 'js','gs', 'css', 'cutestrap', 'html'], function() {
     if (isProd) {
         buildImages();
     }
@@ -46,23 +46,12 @@ gulp.task('watch-test-site', function(){
     });
 });
 
-
-
-gulp.task('templates', function() {
-    return gulp.src(['src/templates/icons/*.html'])
-        .pipe(hoganCompile('templates.js', {wrapper: 'commonjs', hoganModule: 'hogan.js'}))
-        .pipe(gulp.dest('src/js/'));
-});
-
-
-gulp.task('generate-test-site', ['templates', 'css', 'cutestrap', 'js'], function() {
+gulp.task('generate-test-site', ['css', 'cutestrap', 'js'], function() {
     return gulp.src('src/templates/test.html')
         .pipe(gulpHogan())
         .pipe(concat('test.html'))
         .pipe(gulp.dest('dist'));
 });
-
-
 
 gulp.task('js', function() {
     globby(['./src/js/init.js']).then(function(entries) {
@@ -101,8 +90,6 @@ gulp.task('js', function() {
     });    
 })
 
-
-
 gulp.task('gs', function() {
     // just lint for now
     return gulp.src('./lib/**/*.js')
@@ -110,12 +97,7 @@ gulp.task('gs', function() {
         .pipe(jshint.reporter('default'));
 })
 
-
-
-
 gulp.task('css', function() {
-    // process css
-    
     return gulp.src('./src/css/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer({browsers: ['last 10 versions']}))
@@ -124,8 +106,6 @@ gulp.task('css', function() {
         .pipe(gulp.dest('dist'));
         
 });
-
-
 
 gulp.task('cutestrap', function() {
     return gulp.src('./src/css/my-cutestrap.scss')
@@ -136,12 +116,7 @@ gulp.task('cutestrap', function() {
         .pipe(gulp.dest('dist'));
 });
 
-
-
-
 gulp.task('html', function() {
-    // process html  
-    
     return gulp.src('src/templates/index.html')
         .pipe(changed('dist'))
         .pipe(gulpHogan({'isProd': isProd}))
@@ -156,11 +131,7 @@ gulp.task('html', function() {
         .pipe(gulp.dest('dist'));
 });
 
-
-
 gulp.task('img', buildImages);
-
-
 
 gulp.task('jslint', function() {
     return gulp.src('./src/js/*.js')
@@ -168,15 +139,12 @@ gulp.task('jslint', function() {
         .pipe(jshint.reporter('default'));
 })
 
-
-
 function buildImages() {
     let img_path = "./dist/icons/";
     fs.stat(img_path, (err, stat) => {
         if (err) fs.mkdir(img_path);    
     });
-    
-     
+
     fs.readFile("./images/svg/small-banner.svg", (err, data) => {
         if (err) throw err;
         svg2png(data, { width: 440, height: 280 })
@@ -185,7 +153,7 @@ function buildImages() {
             }))
             .catch(e => console.error(e));
     });
-    
+
     fs.readFile("./images/svg/large-banner.svg", (err, data) => {
         if (err) throw err;
         svg2png(data, { width: 920, height: 680 })
@@ -194,9 +162,9 @@ function buildImages() {
             }))
             .catch(e => console.error(e));
     });
-    
+
     let sizes = ['256','128','96','64','48','32','16'];
-    
+
     for (let i = 0; i < sizes.length; i++) {
         fs.readFile("./images/svg/cp-icon.svg", (err, data) => {
             if (err) throw err;
@@ -207,5 +175,4 @@ function buildImages() {
                 .catch(e => console.error(e));
         });
     }
-    
 }
