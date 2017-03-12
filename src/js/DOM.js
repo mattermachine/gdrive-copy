@@ -64,28 +64,20 @@ module.exports = {
      * Show an overlay with a spinner and a message
      */
     showProcessingOverlay: function (message) {
-        var overlay = document.querySelectorAll('.overlay');
-        var overlayMessage = document.querySelectorAll('.overlay__message');
-        for (i = 0; i < overlay.length; i++) {
-            overlay[i].style.display = 'block';
-        }
-        for (i = 0; i < overlayMessage.length; i++) {
-            overlayMessage[i].innerText = message;
-        }
+        var overlay = document.querySelector('.overlay');
+        var overlayMessage = document.querySelector('.overlay__message');
+        overlay.style.display = 'block';
+        overlayMessage.innerText = message;
     },
 
     /**
      * Hide the overlay
      */
     clearProcessingOverlay: function () {
-        var overlay = document.querySelectorAll('.overlay');
-        var overlayMessage = document.querySelectorAll('.overlay__message');
-        for (i = 0; i < overlay.length; i++) {
-            overlay[i].style.display = 'none';
-        }
-        for (i = 0; i < overlayMessage.length; i++) {
-            overlayMessage[i].innerText = '';
-        }
+        var overlay = document.querySelector('.overlay');
+        var overlayMessage = document.querySelector('.overlay__message');
+        overlay.style.display = 'none';
+        overlayMessage.innerText = '';
     }
 };
 
