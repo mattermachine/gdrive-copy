@@ -39,14 +39,6 @@ module.exports = {
         $(".description").hide("blind");
         $("#errors").html("");
         $(".selectOtherFolder").hide("blind");
-        $("#resume-button").attr("disabled", "disabled");
-        $("#new-copy-button").attr("disabled", "disabled");
-        
-        $("#copyFolderButton").button('loading');
-        $("#resumeFolderSubmit").button('loading');
-        $("#newFolder").prop('disabled', true);
-        
-        $("#status").show("blind");
     },
     
     

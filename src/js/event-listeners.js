@@ -46,9 +46,6 @@ module.exports = {
          */
         $("#resumeForm").submit(function( event ) {
             event.preventDefault();
-
-            DOM.showProcessingOverlay('Resuming previous copy (this should just take a few moments)');
-            
             var errormsg;
 
             // validate
@@ -59,6 +56,7 @@ module.exports = {
             } else {
                 // Valid!
                 DOM.onValid();
+                DOM.showProcessingOverlay('Resuming previous copy (this should just take a few moments)');
 
                 picker.folder.resuming = true;
 
@@ -79,6 +77,7 @@ module.exports = {
                         }
                     })
                     .withFailureHandler(function(err) {
+                        DOM.clearProcessingOverlay();
                         $("#errors").append(err);
                     })
                     .getTriggersQuantity();
@@ -96,7 +95,6 @@ module.exports = {
         folderTextbox.addEventListener('mouseup', textboxHandlers.handleMouse, false);
         folderTextbox.addEventListener('keyup', textboxHandlers.getFileData, false);
 
-
         /**
          * Execute when beginning new folder copy
          *
@@ -110,8 +108,6 @@ module.exports = {
          */
         $("#folderForm").submit(function( event ) {
             event.preventDefault();
-            DOM.showProcessingOverlay('Initializing copy request (this should just take a few moments)');
-            
             var errormsg; 
             
             // validate
@@ -126,6 +122,7 @@ module.exports = {
             } else {
                 // Valid!
                 DOM.onValid();
+                DOM.showProcessingOverlay('Initializing copy request (this should just take a few moments)');
                 
                 // Get values from form and selected folder to initialize copy        
                 picker.folder.destName = $("#newFolder").val();
@@ -140,7 +137,6 @@ module.exports = {
                             $("#too-many-triggers").show('blind');
                             $("#status").hide("blind");
                         } else {
-
                             // if not too many triggers, initialize script
                             google.script.run
                                 .withSuccessHandler(success)
@@ -149,6 +145,7 @@ module.exports = {
                         }
                     })
                     .withFailureHandler(function(err) {
+                        DOM.clearProcessingOverlay();
                         $("#errors").append(err);
                     })
                     .getTriggersQuantity();
