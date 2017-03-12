@@ -66,8 +66,12 @@ module.exports = {
     showProcessingOverlay: function (message) {
         var overlay = document.querySelectorAll('.overlay');
         var overlayMessage = document.querySelectorAll('.overlay__message');
-        overlay.style.display = 'block';
-        overlayMessage.innerText = message;
+        for (i = 0; i < overlay.length; i++) {
+            overlay[i].style.display = 'block';
+        }
+        for (i = 0; i < overlayMessage.length; i++) {
+            overlayMessage[i].innerText = message;
+        }
     },
 
     /**
@@ -76,8 +80,12 @@ module.exports = {
     clearProcessingOverlay: function () {
         var overlay = document.querySelectorAll('.overlay');
         var overlayMessage = document.querySelectorAll('.overlay__message');
-        overlay.style.display = 'none';
-        overlayMessage.innerText = '';
+        for (i = 0; i < overlay.length; i++) {
+            overlay[i].style.display = 'none';
+        }
+        for (i = 0; i < overlayMessage.length; i++) {
+            overlayMessage[i].innerText = '';
+        }
     }
 };
 
