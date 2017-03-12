@@ -1,0 +1,20 @@
+@import "my-variables";
+
+.tab {
+    display: none;
+    background-color: #e7e7e7;
+
+    &.active {
+        display: block;
+    }
+}
+
+#start-step1,
+#pause-step1 {
+    display: block;
+}
+
+#start-step2,
+#pause-step2 {
+    display: none;
+}

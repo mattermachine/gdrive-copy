@@ -58,6 +58,26 @@ module.exports = {
         $(".folderSelect").show();
         $(".selectedFolderInfo").hide();
         $(".getFolderErrors").hide();
+    },
+
+    /**
+     * Show an overlay with a spinner and a message
+     */
+    showProcessingOverlay: function (message) {
+        var overlay = document.querySelectorAll('.overlay');
+        var overlayMessage = document.querySelectorAll('.overlay__message');
+        overlay.style.display = 'block';
+        overlayMessage.innerText = message;
+    }
+
+    /**
+     * Hide the overlay
+     */
+    clearProcessingOverlay: function () {
+        var overlay = document.querySelectorAll('.overlay');
+        var overlayMessage = document.querySelectorAll('.overlay__message');
+        overlay.style.display = 'none';
+        overlayMessage.innerText = '';
     }
 };
 

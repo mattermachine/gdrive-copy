@@ -16,7 +16,6 @@ html, body {
     position: relative;
 }
 
-
 main {
     // min-height: 100%;
     width: 100%;
@@ -28,15 +27,6 @@ main {
     padding-bottom: 3rem;
     margin: 0 auto;
     margin-bottom: -$footer-height;
-
-    .tab {
-        display: none;
-        background-color: #e7e7e7;
-
-        &.active {
-            display: block;
-        }
-    }
 }
 
 a {

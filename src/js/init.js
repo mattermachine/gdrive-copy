@@ -1,8 +1,5 @@
 // Requires
-// var picker = require('./picker');
-// var templates = require('./templates.js');
-// var icons = require('./icons');
-// var eventListeners = require('./event-listeners');
+var eventListeners = require('./event-listeners');
 var tabs = require('./tabs.js');
 
 $(function() {
@@ -10,29 +7,26 @@ $(function() {
     var myTabs = tabs({
         // link selector
         tabNavigationLinks: '.tabLink',
-        // tab container selector
+        // container selector
         tabContentContainers: '.tab'
     });
-    // initialize tabs (bind navigation)
-    console.log('init will be called');
+
+    // initialize tabs (bind navigation events)
     myTabs.init();
-    console.log('init called');
 
+    // everything is rendered on the same page, so event listeners can be added all at once
+    eventListeners.addSelectButtonListeners();
+    eventListeners.addStartFormListeners();
+    eventListeners.addResumeFormListeners();
+    eventListeners.addDeleteTriggerButtonListeners();
 
-
-    // eventListeners.addNavListeners();
-    // eventListeners.addDeleteTriggerButtonListeners();
-
-    // $("#put-forms-here").html(templates.start.render({}, icons));
-    // eventListeners.addStartFormListeners();
-
-    // google.script.run
-    //     .withSuccessHandler(function(email) {
-    //         $(".userEmail").html(email);
-    //     })
-    //     .withFailureHandler(function(err) {
-    //         console.log("couldn't get email");
-    //     })
-    //     .getUserEmail();
-    
+    // get user email and put it in the account box
+    google.script.run
+        .withSuccessHandler(function(email) {
+            $(".userEmail").html(email);
+        })
+        .withFailureHandler(function(err) {
+            console.log("couldn't get email");
+        })
+        .getUserEmail();
 });

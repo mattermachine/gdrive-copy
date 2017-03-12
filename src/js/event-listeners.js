@@ -8,52 +8,11 @@
 
 var DOM = require('./DOM');
 var picker = require('./picker');
-var templates = require('./templates.js');
-var icons = require('./icons');
 var parseId = require('./parseId');
 var textboxHandlers = require('./textbox-handlers');
 
 
 module.exports = {
-    /**
-     * Sets bindings for navigation buttons
-     */
-    'addNavListeners': function() {
-        
-        // $('#resume-button').click(function() {
-        //     $("#put-forms-here").html(templates.resume.render({}, icons));
-        //     $(".btn--nav").removeClass("active");
-        //     $(this).addClass("active");
-        //     module.exports.addResumeFormListeners();
-        // }); 
-
-        // $('#start-button').click(function(e) {
-        //     $("#put-forms-here").html(templates.start.render({}, icons));
-        //     $(".btn--nav").removeClass("active");
-        //     $(this).addClass("active");
-        //     module.exports.addStartFormListeners();
-        // });
-
-        // $('#stop-button').click(function(e) {
-        //     $("#put-forms-here").html(templates.pause.render({'confirmed': false}));
-        //     $(".btn--nav").removeClass("active");
-        //     $(this).addClass("active");
-
-        //     $('#stop-confirm-button').click(function() {
-        //         $("#put-forms-here").html(templates.pause.render({'confirmed': true}));
-        //         google.script.run.setStopFlag();
-        //     });
-        // });
-
-        // $('#faq-button').click(function() {
-        //     $("#put-forms-here").html(templates.faq.render({}, icons));
-        //     $(".btn--nav").removeClass("active");
-        //     $(this).addClass("active");
-        // });
-    },
-
-
-
     /**
      * Set bindings for selectFolder and selectOtherFolder buttons.
      * Used in both addResumeformListeners and addStartFormListeners
@@ -75,8 +34,6 @@ module.exports = {
      * Set bindings for input elements in the Resume view
      */
     'addResumeFormListeners': function() {
-        module.exports.addSelectButtonListeners();
-        
         var resumeTextbox = document.getElementById("resumeTextbox");
         resumeTextbox.addEventListener('mouseup', textboxHandlers.handleMouse, false);
         resumeTextbox.addEventListener('keyup', textboxHandlers.getFileData, false);
@@ -88,6 +45,9 @@ module.exports = {
          * @param {Object} event
          */
         $("#resumeForm").submit(function( event ) {
+            event.preventDefault();
+
+            DOM.showProcessingOverlay('Resuming previous copy');
             
             var errormsg;
 
@@ -123,7 +83,6 @@ module.exports = {
                     })
                     .getTriggersQuantity();
             }
-            event.preventDefault();
         });
     },
 
@@ -136,7 +95,6 @@ module.exports = {
         var folderTextbox = document.getElementById("folderTextbox");
         folderTextbox.addEventListener('mouseup', textboxHandlers.handleMouse, false);
         folderTextbox.addEventListener('keyup', textboxHandlers.getFileData, false);
-        module.exports.addSelectButtonListeners();
 
 
         /**
@@ -150,7 +108,9 @@ module.exports = {
          * 
          * @param {Object} event 
          */
-        $("#folderForm").submit(function( event ) { 
+        $("#folderForm").submit(function( event ) {
+            event.preventDefault();
+            DOM.showProcessingOverlay('Initializing copy request (this should just take a few moments)');
             
             var errormsg; 
             
@@ -193,8 +153,6 @@ module.exports = {
                     })
                     .getTriggersQuantity();
             }
-            event.preventDefault();
-            
         });
     },
 
@@ -245,8 +203,7 @@ module.exports = {
  * @param {Object} results contains id string for logger spreadsheet and destination folder
  */
 function success(results) {
-    
-    $("#status").hide("blind");
+    DOM.clearProcessingOverlay();
     
     // link to spreadsheet and  dest Folder
     var copyLogLink = "<a href='https://docs.google.com/spreadsheets/d/" + results.spreadsheetId +"' target='_blank'>copy log</a>";
@@ -262,8 +219,6 @@ function success(results) {
     
     
     google.script.run.copy();
-    
-    
 }
 
 
@@ -276,7 +231,7 @@ function success(results) {
  * @param {string} msg error message produced by Google Apps Script from initialize() call
  */ 
 function showError(msg) {
-    $("#status").hide();
+    DOM.clearProcessingOverlay();
     
     var errormsg = "<div class='alert alert-danger' role='alert'><b>Error:</b> There was an error initializing the copy folder request.<br />";
     errormsg += "<b>Error message:</b> " + msg + ".<br>";

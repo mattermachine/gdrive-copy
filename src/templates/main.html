@@ -2,11 +2,11 @@
     <div class="container" id="container">
         <!-- import forms partials -->
         <!--<div id="put-forms-here"><br>Loading <span class="rotate-contents"><i class="spinner"></i></span></div>-->
-        <div class="tab">{{> forms/about }}</div>
-        <div class="tab">{{> forms/start }}</div>
-        <div class="tab">{{> forms/pause }}</div>
-        <div class="tab">{{> forms/resume }}</div>
-        <div class="tab">{{> forms/faq }}</div>
+        <div class="tab">{{> partials/about }}</div>
+        <div class="tab">{{> partials/start }}</div>
+        <div class="tab">{{> partials/pause }}</div>
+        <div class="tab">{{> partials/resume }}</div>
+        <div class="tab">{{> partials/faq }}</div>
 
         <!--These divs display when complete-->
         <div id="complete" class='alert alert-success' role='alert'>
@@ -35,9 +35,5 @@
             Note: This will stop any other folder copies that are active on your account.
             <button id="delete-existing-triggers" class="btn btn--small btn--nav">Force continue</button>
         </div>
-        
-        <div id="status">
-            <h4 id="status-title">Initializing copy request (this should just take a few moments)</h4> <span class="rotate-contents"><i class="spinner"></i></span>
-        </div> 
     </div>
 </main>
