@@ -189,7 +189,7 @@ module.exports = {
 
 
     'addPauseButtonListener': function () {
-        $('#stop-confirm-button').click(function() {
+        $('#pause-confirm-button').click(function() {
             google.script.run.setStopFlag();
             document.getElementById('pause-step1').style.display = 'none';
             document.getElementById('pause-step2').style.display = 'block';
