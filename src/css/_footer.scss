@@ -24,7 +24,8 @@ footer {
     line-height: $lh-smaller;
     border-right: 1px solid darken($gray4, 20%);
     
-    &:last-of-type {
+    &:last-of-type,
+    &.footer-section--last {
         border-right: 0;
     }
 }
