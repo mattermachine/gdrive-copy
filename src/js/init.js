@@ -19,6 +19,7 @@ $(function() {
     eventListeners.addStartFormListeners();
     eventListeners.addResumeFormListeners();
     eventListeners.addDeleteTriggerButtonListeners();
+    eventListeners.addPauseButtonListener();
 
     // get user email and put it in the account box
     google.script.run

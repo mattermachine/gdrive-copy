@@ -36,9 +36,9 @@ module.exports = {
     * Updates UI to indicate that the app is initializing.
     */
     onValid: function () {
-        $(".description").hide("blind");
         $("#errors").html("");
-        $(".selectOtherFolder").hide("blind");
+        $("#start-validation-errors").html("");
+        $("#resume-validation-errors").html("");
     },
     
     

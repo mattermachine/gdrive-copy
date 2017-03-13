@@ -51,7 +51,7 @@ module.exports = {
             // validate
             if (!picker.folder.srcId) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please select a folder</div>";
-                $("#errors").html(errormsg);
+                $("#resume-validation-errors").html(errormsg);
 
             } else {
                 // Valid!
@@ -113,11 +113,11 @@ module.exports = {
             // validate
             if (!picker.folder.srcId) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please select a folder</div>";
-                $("#errors").html(errormsg);
+                $("#start-validation-errors").html(errormsg);
                 
             } else if ( $("#newFolder").val() === "" ) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please enter a new folder name</div>";
-                $("#errors").html(errormsg);
+                $("#start-validation-errors").html(errormsg);
                 
             } else {
                 // Valid!
@@ -184,6 +184,16 @@ module.exports = {
                 })
                 .deleteAllTriggers();
         });
+    },
+
+
+
+    'addPauseButtonListener': function () {
+        $('#stop-confirm-button').click(function() {
+            google.script.run.setStopFlag();
+            document.getElementById('pause-step1').style.display = 'none';
+            document.getElementById('pause-step2').style.display = 'block';
+        });
     }
 };
 
@@ -201,6 +211,20 @@ module.exports = {
  */
 function success(results) {
     DOM.clearProcessingOverlay();
+
+    // Hide step 1
+    var step1 = document.querySelectorAll('.step1');
+    for (i = 0; i < step1.length; i++) {
+        step1[i].style.display = 'none';
+    }
+
+    if (results.resuming) {
+        // show resuming success
+        document.getElementById('resume-success').style.display = 'block';
+    } else {
+        // show start success
+        document.getElementById('start-success').style.display = 'block';
+    }
     
     // link to spreadsheet and  dest Folder
     var copyLogLink = "<a href='https://docs.google.com/spreadsheets/d/" + results.spreadsheetId +"' target='_blank'>copy log</a>";
@@ -208,12 +232,6 @@ function success(results) {
     
     var destFolderLink = "<a href='https://drive.google.com/drive/u/0/folders/" + results.destId + "' target='_blank'>here</a>";
     $("#dest-folder-link").html(destFolderLink);
-    
-    // alert that they can close window now
-    $("#complete").show("blind");
-    $("#please-review").show("blind");
-    
-    
     
     google.script.run.copy();
 }
@@ -229,6 +247,20 @@ function success(results) {
  */ 
 function showError(msg) {
     DOM.clearProcessingOverlay();
+
+    // Hide step 1
+    var step1 = document.querySelectorAll('.step1');
+    for (i = 0; i < step1.length; i++) {
+        step1[i].style.display = 'none';
+    }
+
+    if (results.resuming) {
+        // show resuming success
+        document.getElementById('resume-error').style.display = 'block';
+    } else {
+        // show start success
+        document.getElementById('start-error').style.display = 'block';
+    }
     
     var errormsg = "<div class='alert alert-danger' role='alert'><b>Error:</b> There was an error initializing the copy folder request.<br />";
     errormsg += "<b>Error message:</b> " + msg + ".<br>";
