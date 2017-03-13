@@ -76,12 +76,6 @@ a {
     }
 }
 
-// Hide elements that are programatically shown throughout script processing
-#status, #complete, #please-review, #dialog-message {
-    display: none;
-}
-
-
 // inspired by https://github.com/FortAwesome/Font-Awesome/blob/89a28f8b1f9882159dce581ee92d398bbc33ad59/scss/_list.scss
 .icon-ul {
     padding-left: 0;
@@ -96,20 +90,15 @@ a {
     }
 }
 
-
-
 .getFolderErrors,
 .folderLookup,
 .selectedFolderInfo {
     display:none;
 }
 
-
-
 #too-many-triggers {
     display: none;
 }
-
 
 .description {
     font-size: $fs-smaller;

@@ -69,12 +69,11 @@ button {
       background: #fff;
       color: $gray3; // same as nav background in _header
       border-color: $body-background;
-
-      // &:hover {
-      //   padding-bottom: 1.5em;
-      //   border: 0px;
-      // }
-    } 
+    }
   }
 }
 
+.github-button-wrapper {
+  position: relative;
+  top: 10px;
+}
