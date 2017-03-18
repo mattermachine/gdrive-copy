@@ -21,13 +21,17 @@ $(function() {
     eventListeners.addDeleteTriggerButtonListeners();
     eventListeners.addPauseButtonListener();
 
-    // get user email and put it in the account box
-    google.script.run
-        .withSuccessHandler(function(email) {
-            $(".userEmail").html(email);
-        })
-        .withFailureHandler(function(err) {
-            console.log("couldn't get email");
-        })
-        .getUserEmail();
+    try {
+        // get user email and put it in the account box
+        google.script.run
+            .withSuccessHandler(function(email) {
+                $(".userEmail").text('Logged in as ' + email);
+            })
+            .withFailureHandler(function(err) {
+                $(".userEmail").text('Error retrieving active account');
+            })
+            .getUserEmail();
+    } catch (err) {
+        $(".userEmail").text('Error retrieving active account');
+    }
 });
