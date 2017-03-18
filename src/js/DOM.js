@@ -70,6 +70,47 @@ module.exports = {
         var overlayMessage = document.querySelector('.overlay__message');
         overlay.style.display = 'none';
         overlayMessage.innerText = '';
-    }
+    },
+
+    hideStep1: function () {
+        // Hide step 1
+        var step1 = document.querySelectorAll('.step1');
+        for (i = 0; i < step1.length; i++) {
+            step1[i].style.display = 'none';
+        }
+    },
+
+    /**
+     * shows either `resume-success`, `resume-error`, `start-success`, or `start-error`
+     * Can also show both start and resume at same time if resuming is null or undefined.
+     * 
+     * @param {boolean} resuming
+     * @param {string} successfulness should be either 'error' or 'success'
+     */
+    showStep2: function (resuming, successfulness) {
+        if (resuming === null || resuming === undefined) {
+            document.getElementById('start-' + successfulness).style.display = 'block';
+            return;
+        }
+        var id = resuming ? 'resume' : 'start';
+        id += '-' + successfulness;
+        document.getElementById(id).style.display = 'block';
+    },
+
+    showTooManyTriggers: function () {
+        $(".too-many-triggers").show();
+    },
+
+    hideTooManyTriggers: function () {
+        $(".too-many-triggers").hide();
+    },
+
+    showErrors: function () {
+        $('.errors').show();
+    },
+
+    hideErrors: function () {
+        $('.errors').hide();
+    },
 };
 
