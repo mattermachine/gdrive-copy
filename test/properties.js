@@ -1,23 +1,9 @@
 var assert = require('chai').assert;
-var Properties = require('../lib/properties.js').Properties;
-var alterProps = require('../lib/properties.js').alterProps;
-var parseProps = require('../lib/properties.js').parseProps;
-var stringifyProps = require('../lib/properties.js').stringifyProps;
-
-// define mocks
-var PropertiesService = {
-    getUserProperties: function () {
-        var _value = {};
-        return {
-            setProperty: function (key, value) {
-                _value[key] = value;
-            },
-            getProperty: function (key) {
-                return _value[key];
-            }
-        };
-    }
-};
+var Properties = require('../lib/properties').Properties;
+var alterProps = require('../lib/properties').alterProps;
+var parseProps = require('../lib/properties').parseProps;
+var stringifyProps = require('../lib/properties').stringifyProps;
+var PropertiesService = require('./mock').PropertiesService;
 
 describe('Properties', function() {
     it('should be able to apply a function to all props in an object', function() {

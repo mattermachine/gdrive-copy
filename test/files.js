@@ -1,7 +1,10 @@
 var assert = require('chai').assert;
-var Files = require('../lib/files.js').Files;
-var Properties = require('../lib/properties.js').Properties;
 var R = require('ramda');
+var Files = require('../lib/files').Files;
+var Properties = require('../lib/properties').Properties;
+var mock = require('./mock');
+var PropertiesService = mock.PropertiesService;
+var Drive = mock.Drive;
 
 describe('Files', function() {
     it('should tell when an object is a native Google Type', function () {
@@ -76,6 +79,11 @@ describe('Files', function() {
             var files = new Files(properties);
             files._properties.addRemaining();
             properties.getNextRemaining();
+        });
+
+        it('should be able to call insert files with the Drive service', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props, Drive);
         });
     });
 });
