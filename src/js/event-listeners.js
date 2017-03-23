@@ -186,8 +186,7 @@ module.exports = {
     'addPauseButtonListener': function () {
         $('#pause-confirm-button').click(function() {
             google.script.run.setStopFlag();
-            document.getElementById('pause-step1').style.display = 'none';
-            document.getElementById('pause-step2').style.display = 'block';
+            DOM.showPauseStep2();
         });
     }
 };
@@ -206,7 +205,7 @@ module.exports = {
  */
 function success(results) {
     DOM.clearProcessingOverlay();
-    DOM.hideStep1();
+    DOM.hideStep1(results.resuming);
     DOM.showStep2(results.resuming, 'success');
     
     // link to spreadsheet and  dest Folder

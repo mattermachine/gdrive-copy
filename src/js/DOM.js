@@ -72,12 +72,10 @@ module.exports = {
         overlayMessage.innerText = '';
     },
 
-    hideStep1: function () {
-        // Hide step 1
-        var step1 = document.querySelectorAll('.step1');
-        for (i = 0; i < step1.length; i++) {
-            step1[i].style.display = 'none';
-        }
+    hideStep1: function (resuming) {
+        // Hide step 1 for Start or Resuming
+        var id = resuming ? 'resume-step1' : 'start-step1';
+        document.getElementById(id).style.display = 'none';
     },
 
     /**
@@ -112,5 +110,10 @@ module.exports = {
     hideErrors: function () {
         $('.errors').hide();
     },
+
+    showPauseStep2: function () {
+        document.getElementById('pause-step1').style.display = 'none';
+        document.getElementById('pause-step2').style.display = 'block';
+    }
 };
 
