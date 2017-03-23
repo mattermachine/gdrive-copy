@@ -48,6 +48,7 @@ button {
     border-bottom: 0.5em solid $primary;
     background: none;
     box-sizing: border-box;
+    transition: all 0.25s ease;
 
     &:hover {
       // padding-bottom: 1em;
@@ -69,6 +70,7 @@ button {
       background: #fff;
       color: $gray3; // same as nav background in _header
       border-color: $body-background;
+      transition: all 0.25s ease;
     }
   }
 }
