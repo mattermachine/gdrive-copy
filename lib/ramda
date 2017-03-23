@@ -6,13 +6,11 @@ like a normal person would in a normal web app.
 So, the workaround: In every file that uses ramda, there is a declaration that looks like this:
 
 ````
-try {
-    var R = require('ramda');
-} catch (err) {
-    Logger.log(err);
-}
+var R = this.R ? this.R : require('ramda');
 ```
 
-R is exported from [the source code](https://github.com/ramda/ramda/blob/master/dist/ramda.min.js), 
+R is exported from [the source code](https://github.com/ramda/ramda/blob/master/dist/ramda.js), 
 so when deploying, it is possible to just copy and paste the ramda distributino code into a separate 
-`gs` file.  But, in local development, this statement allows ramda to be `require`d and used normally.
+`.gs` file.  But, in local development, this statement allows ramda to be `require`d and used normally.
+
+IMPORTANT: The ramda file must be placed as the top `.gs` file in your GAS project.  Otherwise it will not work.
