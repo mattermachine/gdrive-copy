@@ -228,12 +228,14 @@ function success(results) {
  * 
  * @param {string} msg error message produced by Google Apps Script from initialize() call
  */ 
-function showError(msg) {
+function showError(error) {
     DOM.clearProcessingOverlay();
     DOM.hideStep1();
     DOM.showStep2(picker.folder.resuming, 'error');
     DOM.hideTooManyTriggers();
     DOM.showErrors();
 
-    $('.error-message').text(msg);
+    var errorMsg = error.message + ' Occurred on line ' + error.lineNumber + ' ' + error.stack;
+
+    $('.error-message').text(errorMsg);
 }
