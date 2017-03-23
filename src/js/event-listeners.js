@@ -234,7 +234,7 @@ function showError(error) {
     DOM.hideTooManyTriggers();
     DOM.showErrors();
 
-    var errorMsg = error.message + ' Occurred on line ' + error.lineNumber + ' ' + error.stack;
+    var errorMsg = error.message + ' Occurred ' + error.lineNumber + ' ' + error.stack;
 
     $('.error-message').text(errorMsg);
 }

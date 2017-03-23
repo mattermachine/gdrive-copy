@@ -4,6 +4,21 @@ var alterProps = require('../lib/properties.js').alterProps;
 var parseProps = require('../lib/properties.js').parseProps;
 var stringifyProps = require('../lib/properties.js').stringifyProps;
 
+// define mocks
+var PropertiesService = {
+    getUserProperties: function () {
+        var _value = {};
+        return {
+            setProperty: function (key, value) {
+                _value[key] = value;
+            },
+            getProperty: function (key) {
+                return _value[key];
+            }
+        };
+    }
+};
+
 describe('Properties', function() {
     it('should be able to apply a function to all props in an object', function() {
         function addTail (item) {
@@ -83,7 +98,7 @@ describe('Properties', function() {
     });
 
     it('should be able to add a new key/value pair', function () {
-        var props = new Properties();
+        var props = new Properties(PropertiesService);
         var obj = { 'one': 'ONE', 'two': 'TWO' };
         props._mapping = obj;
         props.addMapping('three', 'THREE');
@@ -95,4 +110,12 @@ describe('Properties', function() {
         Properties.prototype.addMapping('three', 'THREE');
         assert.equal(Properties.prototype.getMapping('three'), 'THREE');
     });
+
+    it('should be able to set and get properties from the PropertiesService', function () {
+        var props = new Properties(PropertiesService);
+        props.setServiceProperty('key1', 'value1');
+        props.setServiceProperty('key2', 'value2');
+        assert.equal(props.getServiceProperty('key1'), 'value1');
+        assert.equal(props.getServiceProperty('key2'), 'value2');
+    })
 });
