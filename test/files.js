@@ -47,55 +47,81 @@ describe('Files', function() {
         });
     });
 
-    // TODO: add these
     describe('Drive API calls', function () {
-        it.skip('should build parameters correctly', function () {
-            var props = new Properties(PropertiesService);
+        var props = new Properties(PropertiesService);
+        var item = mock.item;
+
+        it('should build parameters correctly', function () {    
             var files = new Files(props);
-            // TODO: mock out the item
-            var item = {};
             var body = files._arrangeRequestBody(item);
-            assert.equal(R.propEq(body.description, item.description), true);
-            assert.equal(R.propEq(body.title, item.title), true);
-            assert.equal(R.propEq(body.mimeType, item.mimeType), true);
-            assert.equal(R.propEq(body.parents[0].kind, item.parents[0].kind), true);
-            // this won't be possible unless I add a reference to Properties and add a mapping
-            // assert.equal(R.propEq(body.parents[0].id, item.parents[0].id), true);
+            assert.equal(body.description, item.description);
+            assert.equal(body.title, item.title);
+            assert.equal(body.mimeType, item.mimeType);
+            assert.equal(body.parents[0].kind, item.parents[0].kind);
+
+            // This assertion is trivial in this test setup, but in practice these should never match.
+            // The new file will have a different parent ID than the source.
+            assert.notEqual(body.parents[0].id, item.parents[0].id);
         });
 
-        it.skip('should build results correctly', function () {
-            var props = new Properties(PropertiesService);
+        it('should build an error result object', function () {
             var files = new Files(props);
-            var item = {};
-            var result = files._buildResult(item);
+            var item = {
+                id: '12345',
+                title: 'testing'
+            };
+            var error = new Error('test error message');
+            var result = files._buildErrorResult(error.message, item.id, item.title);
+            assert.equal(result.isError, true);
+            assert.equal(result.errMessage, error.message);
+            assert.equal(result.id, item.id);
+            assert.equal(result.title, item.title);
         });
 
-        it.skip('should be able to add mappings to Properties', function () {
-            var props = new Properties(PropertiesService);
+        it('should build a success result object', function () {
             var files = new Files(props);
-            files._properties.addMapping();
-            properties.getMapping();
+            var item = {
+                id: '12345',
+                title: 'testing'
+            };
+            var result = files._buildSuccessResult(item.id, item.title);
+            assert.equal(result.isError, false);
+            assert.equal(result.errMessage, null);
+            assert.equal(result.id, item.id);
+            assert.equal(result.title, item.title);
         });
 
-        it.skip('should be able to add remaining to Properties', function () {
-            var props = new Properties(PropertiesService);
+        it('should be able to add mappings to Properties', function () {
             var files = new Files(props);
-            files._properties.addToRemaining();
-            properties.getNextRemaining();
+            files._properties.addMapping('123', '456');
+            assert.equal(files._properties.getMapping('123'), '456');
+            files._properties.addMapping(789, 987);
+            assert.equal(files._properties.getMapping(789), 987);
         });
 
+        it('should be able to add remaining to Properties', function () {
+            var files = new Files(props);
+            var remaining1 = '123ABC';
+            var remaining2 = '456DEF';
+            var remaining3 = '789GHI';
+            files._properties.addToRemaining(remaining1);
+            assert.equal(files._properties.getNextRemaining(), remaining1);
+            files._properties.addToRemaining(remaining2);
+            files._properties.addToRemaining(remaining3);
+            assert.equal(files._properties.getNextRemaining(), remaining3);
+            assert.equal(files._properties.getNextRemaining(), remaining2);
+        });
+
+        // TODO: add these
         it.skip('should be able to call insert files with the Drive service', function () {
-            var props = new Properties(PropertiesService);
             var files = new Files(props, Drive);
         });
 
         it.skip('should be able to list files with the Drive service', function () {
-            var props = new Properties(PropertiesService);
             var files = new Files(props, Drive);
         });
 
         it.skip('should be able to copy files with the Drive service', function () {
-            var props = new Properties(PropertiesService);
             var files = new Files(props, Drive);
         });
     });
