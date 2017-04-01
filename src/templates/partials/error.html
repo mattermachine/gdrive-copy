@@ -1,7 +1,14 @@
 <!--Error-->
 <!--These divs get filled programatically at runtime-->
-<div id="errors"></div>
-<div id="too-many-triggers" class="alert alert-danger">
+<div class='errors'>
+    <div class='alert alert-danger' role='alert'>
+        <p><b>Error:</b> There was an error initializing the copy folder request.</p>
+        <p><b>The app returned this error:</b> <span class='error-message'></span></p>
+        <p>Please try again. Make sure you have correct permissions to copy this folder, and make sure
+        you are using Google Chrome or Chromium when using this app.</p>
+    </div>
+</div>
+<div class="too-many-triggers" class="alert alert-danger">
     There are too many existing Copy Folder instances running.
     Please wait until the other instances complete to begin a new folder copy.<br><br>
     If there are no other folders currently being copied, you can force this operation to continue.

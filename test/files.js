@@ -1,7 +1,10 @@
 var assert = require('chai').assert;
-var Files = require('../lib/files.js').Files;
-var Properties = require('../lib/properties.js').Properties;
 var R = require('ramda');
+var Files = require('../lib/files').Files;
+var Properties = require('../lib/properties').Properties;
+var mock = require('./mock');
+var PropertiesService = mock.PropertiesService;
+var Drive = mock.Drive;
 
 describe('Files', function() {
     it('should tell when an object is a native Google Type', function () {
@@ -45,9 +48,11 @@ describe('Files', function() {
     });
 
     // TODO: add these
-    describe.skip('Drive API calls', function () {
-        it('should build parameters correctly', function () {
-            var files = new Files();
+    describe('Drive API calls', function () {
+        it.skip('should build parameters correctly', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props);
+            // TODO: mock out the item
             var item = {};
             var body = files._arrangeRequestBody(item);
             assert.equal(R.propEq(body.description, item.description), true);
@@ -58,24 +63,40 @@ describe('Files', function() {
             // assert.equal(R.propEq(body.parents[0].id, item.parents[0].id), true);
         });
 
-        it('should build results correctly', function () {
-            var files = new Files();
+        it.skip('should build results correctly', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props);
             var item = {};
             var result = files._buildResult(item);
         });
 
-        it('should be able to add mappings to Properties', function () {
-            var properties = new Properties();
-            var files = new Files(properties);
+        it.skip('should be able to add mappings to Properties', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props);
             files._properties.addMapping();
             properties.getMapping();
         });
 
-        it('should be able to add remaining to Properties', function () {
-            var properties = new Properties();
-            var files = new Files(properties);
-            files._properties.addRemaining();
+        it.skip('should be able to add remaining to Properties', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props);
+            files._properties.addToRemaining();
             properties.getNextRemaining();
+        });
+
+        it.skip('should be able to call insert files with the Drive service', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props, Drive);
+        });
+
+        it.skip('should be able to list files with the Drive service', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props, Drive);
+        });
+
+        it.skip('should be able to copy files with the Drive service', function () {
+            var props = new Properties(PropertiesService);
+            var files = new Files(props, Drive);
         });
     });
 });

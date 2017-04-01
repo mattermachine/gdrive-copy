@@ -1,8 +1,9 @@
 var assert = require('chai').assert;
-var Properties = require('../lib/properties.js').Properties;
-var alterProps = require('../lib/properties.js').alterProps;
-var parseProps = require('../lib/properties.js').parseProps;
-var stringifyProps = require('../lib/properties.js').stringifyProps;
+var Properties = require('../lib/properties').Properties;
+var alterProps = require('../lib/properties').alterProps;
+var parseProps = require('../lib/properties').parseProps;
+var stringifyProps = require('../lib/properties').stringifyProps;
+var PropertiesService = require('./mock').PropertiesService;
 
 describe('Properties', function() {
     it('should be able to apply a function to all props in an object', function() {
@@ -83,7 +84,7 @@ describe('Properties', function() {
     });
 
     it('should be able to add a new key/value pair', function () {
-        var props = new Properties();
+        var props = new Properties(PropertiesService);
         var obj = { 'one': 'ONE', 'two': 'TWO' };
         props._mapping = obj;
         props.addMapping('three', 'THREE');
@@ -95,4 +96,12 @@ describe('Properties', function() {
         Properties.prototype.addMapping('three', 'THREE');
         assert.equal(Properties.prototype.getMapping('three'), 'THREE');
     });
+
+    it('should be able to set and get properties from the PropertiesService', function () {
+        var props = new Properties(PropertiesService);
+        props.setServiceProperty('key1', 'value1');
+        props.setServiceProperty('key2', 'value2');
+        assert.equal(props.getServiceProperty('key1'), 'value1');
+        assert.equal(props.getServiceProperty('key2'), 'value2');
+    })
 });

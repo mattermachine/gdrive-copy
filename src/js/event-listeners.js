@@ -52,36 +52,35 @@ module.exports = {
             if (!picker.folder.srcId) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please select a folder</div>";
                 $("#resume-validation-errors").html(errormsg);
-
-            } else {
-                // Valid!
-                DOM.onValid();
-                DOM.showProcessingOverlay('Resuming previous copy (this should just take a few moments)');
-
-                picker.folder.resuming = true;
-
-                // count number of triggers
-                google.script.run
-                    .withSuccessHandler(function(number) {
-                        // prompt user to wait or delete existing triggers
-                        if (number > 9) {
-                            $("#too-many-triggers").show('blind');
-                            $("#status").hide("blind");
-                        } else {
-
-                            // if not too many triggers, initialize script
-                            google.script.run
-                                .withSuccessHandler(success)
-                                .withFailureHandler(showError)
-                                .resume(picker.folder);
-                        }
-                    })
-                    .withFailureHandler(function(err) {
-                        DOM.clearProcessingOverlay();
-                        $("#errors").append(err);
-                    })
-                    .getTriggersQuantity();
+                return;
             }
+
+            // Valid!
+            DOM.onValid();
+            DOM.showProcessingOverlay('Resuming previous copy (this should just take a few moments)');
+
+            picker.folder.resuming = true;
+
+            // count number of triggers
+            google.script.run
+                .withSuccessHandler(function(number) {
+                    // prompt user to wait or delete existing triggers
+                    if (number > 9) {
+                        DOM.clearProcessingOverlay();
+                        DOM.hideStep1();
+                        DOM.showStep2(picker.folder.resuming, 'error');
+                        DOM.showTooManyTriggers();
+                    } else {
+
+                        // if not too many triggers, initialize script
+                        google.script.run
+                            .withSuccessHandler(success)
+                            .withFailureHandler(showError)
+                            .resume(picker.folder);
+                    }
+                })
+                .withFailureHandler(showError)
+                .getTriggersQuantity();
         });
     },
 
@@ -114,42 +113,41 @@ module.exports = {
             if (!picker.folder.srcId) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please select a folder</div>";
                 $("#start-validation-errors").html(errormsg);
-                
+                return;
             } else if ( $("#newFolder").val() === "" ) {
                 errormsg = "<div class='alert alert-danger' role='alert'>Please enter a new folder name</div>";
                 $("#start-validation-errors").html(errormsg);
-                
-            } else {
-                // Valid!
-                DOM.onValid();
-                DOM.showProcessingOverlay('Initializing copy request (this should just take a few moments)');
-                
-                // Get values from form and selected folder to initialize copy        
-                picker.folder.destName = $("#newFolder").val();
-                picker.folder.permissions = $("#permissions-group").find("input:checked").val() == "yes";
-                picker.folder.destLocation = $("#destination-group").find("input:checked").val();
-
-                // count number of triggers
-                google.script.run
-                    .withSuccessHandler(function(number) {
-                        // prompt user to wait or delete existing triggers
-                        if (number > 9) {
-                            $("#too-many-triggers").show('blind');
-                            $("#status").hide("blind");
-                        } else {
-                            // if not too many triggers, initialize script
-                            google.script.run
-                                .withSuccessHandler(success)
-                                .withFailureHandler(showError)
-                                .initialize(picker.folder);
-                        }
-                    })
-                    .withFailureHandler(function(err) {
-                        DOM.clearProcessingOverlay();
-                        $("#errors").append(err);
-                    })
-                    .getTriggersQuantity();
+                return;
             }
+
+            // Valid!
+            DOM.onValid();
+            DOM.showProcessingOverlay('Initializing copy request (this should just take a few moments)');
+            
+            // Get values from form and selected folder to initialize copy        
+            picker.folder.destName = $("#newFolder").val();
+            picker.folder.permissions = $("#permissions-group").find("input:checked").val() == "yes";
+            picker.folder.destLocation = $("#destination-group").find("input:checked").val();
+
+            // count number of triggers
+            google.script.run
+                .withSuccessHandler(function(number) {
+                    // prompt user to wait or delete existing triggers
+                    if (number > 9) {
+                        DOM.clearProcessingOverlay();
+                        DOM.hideStep1();
+                        DOM.showStep2(picker.folder.resuming, 'error');
+                        DOM.showTooManyTriggers();
+                    } else {
+                        // if not too many triggers, initialize script
+                        google.script.run
+                            .withSuccessHandler(success)
+                            .withFailureHandler(showError)
+                            .initialize(picker.folder);
+                    }
+                })
+                .withFailureHandler(showError)
+                .getTriggersQuantity();
         });
     },
 
@@ -160,8 +158,7 @@ module.exports = {
      */
     'addDeleteTriggerButtonListeners': function() {
         $('#delete-existing-triggers').click(function() {
-            $("#status").show("blind");
-            $("#too-many-triggers").hide();
+            DOM.hideTooManyTriggers();
 
             google.script.run
                 .withSuccessHandler(function() {
@@ -179,9 +176,7 @@ module.exports = {
                     }
 
                 })
-                .withFailureHandler(function(err) {
-                    $("#errors").append(err);
-                })
+                .withFailureHandler(showError)
                 .deleteAllTriggers();
         });
     },
@@ -191,8 +186,7 @@ module.exports = {
     'addPauseButtonListener': function () {
         $('#pause-confirm-button').click(function() {
             google.script.run.setStopFlag();
-            document.getElementById('pause-step1').style.display = 'none';
-            document.getElementById('pause-step2').style.display = 'block';
+            DOM.showPauseStep2();
         });
     }
 };
@@ -211,27 +205,15 @@ module.exports = {
  */
 function success(results) {
     DOM.clearProcessingOverlay();
-
-    // Hide step 1
-    var step1 = document.querySelectorAll('.step1');
-    for (i = 0; i < step1.length; i++) {
-        step1[i].style.display = 'none';
-    }
-
-    if (results.resuming) {
-        // show resuming success
-        document.getElementById('resume-success').style.display = 'block';
-    } else {
-        // show start success
-        document.getElementById('start-success').style.display = 'block';
-    }
+    DOM.hideStep1(results.resuming);
+    DOM.showStep2(results.resuming, 'success');
     
     // link to spreadsheet and  dest Folder
     var copyLogLink = "<a href='https://docs.google.com/spreadsheets/d/" + results.spreadsheetId +"' target='_blank'>copy log</a>";
-    $("#copy-log-link").html(copyLogLink);
+    $(".copy-log-link").html(copyLogLink);
     
     var destFolderLink = "<a href='https://drive.google.com/drive/u/0/folders/" + results.destId + "' target='_blank'>here</a>";
-    $("#dest-folder-link").html(destFolderLink);
+    $(".dest-folder-link").html(destFolderLink);
     
     google.script.run.copy();
 }
@@ -245,25 +227,14 @@ function success(results) {
  * 
  * @param {string} msg error message produced by Google Apps Script from initialize() call
  */ 
-function showError(msg) {
+function showError(error) {
     DOM.clearProcessingOverlay();
+    DOM.hideStep1();
+    DOM.showStep2(picker.folder.resuming, 'error');
+    DOM.hideTooManyTriggers();
+    DOM.showErrors();
 
-    // Hide step 1
-    var step1 = document.querySelectorAll('.step1');
-    for (i = 0; i < step1.length; i++) {
-        step1[i].style.display = 'none';
-    }
+    var errorMsg = error.message + ' Occurred ' + error.lineNumber + ' ' + error.stack;
 
-    if (results.resuming) {
-        // show resuming success
-        document.getElementById('resume-error').style.display = 'block';
-    } else {
-        // show start success
-        document.getElementById('start-error').style.display = 'block';
-    }
-    
-    var errormsg = "<div class='alert alert-danger' role='alert'><b>Error:</b> There was an error initializing the copy folder request.<br />";
-    errormsg += "<b>Error message:</b> " + msg + ".<br>";
-    errormsg += "Please try again. Make sure you have correct permissions to copy this folder, and make sure you are using Google Chrome or Chromium when using this app.</div>";
-    $("#errors").append(errormsg);
+    $('.error-message').text(errorMsg);
 }
