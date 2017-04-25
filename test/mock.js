@@ -18,15 +18,9 @@ var PropertiesService = {
 
 var Drive = {
     Files: {
-        insert: function () {
-
-        },
-        copy: function () {
-
-        },
-        list: function () {
-            
-        }
+        insert: function () {},
+        copy: function () {},
+        list: function () {}
     }
 }
 

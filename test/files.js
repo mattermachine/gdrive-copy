@@ -6,6 +6,8 @@ var mock = require('./mock');
 var PropertiesService = mock.PropertiesService;
 var Drive = mock.Drive;
 
+var sinon = require('sinon');
+
 describe('Files', function() {
     it('should tell when an object is a native Google Type', function () {
         var files = new Files();
@@ -114,7 +116,20 @@ describe('Files', function() {
 
         // TODO: add these
         it.skip('should be able to call insert files with the Drive service', function () {
+            // var stub = sinon.stub(Drive.Files, 'list');
+            var stub = sinon.stub(Drive.Files, 'list').callsFake(function (query) {
+                return query;
+            })
+            // stub.returns({
+            //     items: [
+            //         { id: 1 }, { id: 2 }, { id: 3 }
+            //     ]
+            // });
+            // console.log(stub);
             var files = new Files(props, Drive);
+            files.getFiles('testing');
+            assert.equal(stub.called, true);
+            // assert.equal(stub.calledWith('testing'), true);
         });
 
         it.skip('should be able to list files with the Drive service', function () {

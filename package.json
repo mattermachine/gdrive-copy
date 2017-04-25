@@ -4,7 +4,8 @@
   "description": "Web app to recursively copy Google Drive folder and contents",
   "main": "gulpfile.js",
   "dependencies": {
-    "ramda": "^0.23.0"
+    "ramda": "^0.23.0",
+    "sinon": "^2.1.0"
   },
   "devDependencies": {
     "browserify": "~13.0.0",
