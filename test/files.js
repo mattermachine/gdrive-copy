@@ -116,20 +116,13 @@ describe('Files', function() {
 
         // TODO: add these
         it.skip('should be able to call insert files with the Drive service', function () {
-            // var stub = sinon.stub(Drive.Files, 'list');
-            var stub = sinon.stub(Drive.Files, 'list').callsFake(function (query) {
-                return query;
-            })
-            // stub.returns({
-            //     items: [
-            //         { id: 1 }, { id: 2 }, { id: 3 }
-            //     ]
-            // });
-            // console.log(stub);
+            Drive.Files.list.returns(42);
             var files = new Files(props, Drive);
-            files.getFiles('testing');
-            assert.equal(stub.called, true);
-            // assert.equal(stub.calledWith('testing'), true);
+            var query = files.getFiles('testing');
+            assert.equal(Drive.Files.list.called, true);
+            // this is actually called with a more complex request body
+            // assert.equal(Drive.Files.list.calledWith('testing'), true);
+            assert.equal(query, 42);
         });
 
         it.skip('should be able to list files with the Drive service', function () {

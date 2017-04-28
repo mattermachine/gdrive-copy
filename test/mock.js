@@ -1,3 +1,4 @@
+var sinon = require('sinon');
 /*
  * Provide mock data for use in tests
  */
@@ -18,9 +19,9 @@ var PropertiesService = {
 
 var Drive = {
     Files: {
-        insert: function () {},
-        copy: function () {},
-        list: function () {}
+        insert: sinon.stub(),
+        copy: sinon.stub(),
+        list: sinon.stub()
     }
 }
 
