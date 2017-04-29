@@ -7,10 +7,15 @@
  *
  * @description The Tabs component.
  * @param {Object} options The options hash
- */ 
+ */
+
 module.exports = function(options) {
-  var tabNavigationLinks = document.querySelectorAll(options.tabNavigationLinks);
-  var tabContentContainers = document.querySelectorAll(options.tabContentContainers);
+  var tabNavigationLinks = document.querySelectorAll(
+    options.tabNavigationLinks
+  );
+  var tabContentContainers = document.querySelectorAll(
+    options.tabContentContainers
+  );
   var activeIndex = 0;
 
   /**
@@ -27,7 +32,7 @@ module.exports = function(options) {
     }
 
     // Go to the "start" tab.  About is 0, Start is 1
-    goToTab(1); 
+    goToTab(1);
   };
 
   /**
@@ -52,9 +57,13 @@ module.exports = function(options) {
    * @param {Number} index The index of the tab to go to
    */
   var goToTab = function(index) {
-    if (index !== activeIndex && index >= 0 && index <= tabNavigationLinks.length) {
+    if (
+      index !== activeIndex &&
+      index >= 0 &&
+      index <= tabNavigationLinks.length
+    ) {
       tabNavigationLinks[activeIndex].classList.remove('active');
-      tabNavigationLinks[index].classList.add('active'); 
+      tabNavigationLinks[index].classList.add('active');
       tabContentContainers[activeIndex].classList.remove('active');
       tabContentContainers[index].classList.add('active');
       activeIndex = index;

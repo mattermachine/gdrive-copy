@@ -6,102 +6,98 @@ var stringifyProps = require('../lib/properties').stringifyProps;
 var PropertiesService = require('./mock').PropertiesService;
 
 describe('Properties', function() {
-    it('should be able to apply a function to all props in an object', function() {
-        function addTail (item) {
-            return item + ' added tail!'
-        }
+  it('should be able to apply a function to all props in an object', function() {
+    function addTail(item) {
+      return item + ' added tail!';
+    }
 
-        var originalObj = {
-            owner: 'eric',
-            lastModified: 'yesterday',
-            parents: 'kay, steve'
-        };
+    var originalObj = {
+      owner: 'eric',
+      lastModified: 'yesterday',
+      parents: 'kay, steve'
+    };
 
-        var newObj = alterProps(addTail, originalObj);
+    var newObj = alterProps(addTail, originalObj);
 
-        // verify that the function was applied to all properties
-        Object.keys(newObj).forEach(function(prop, i, properties) {
-            assert.equal(newObj[prop], originalObj[prop] + ' added tail!');
-        })
-
-        // original object should not be modified in this procedure
-        assert.notDeepEqual(newObj, originalObj);
+    // verify that the function was applied to all properties
+    Object.keys(newObj).forEach(function(prop, i, properties) {
+      assert.equal(newObj[prop], originalObj[prop] + ' added tail!');
     });
 
-    it('should be able to stringify all props in an object', function() {
-        var fileObj = {
-            items: [
-                'one', 'two', 'three'
-            ],
-            owner: {
-                name: 'eric',
-                type: 'user'
-            },
-            lastModified: '2016-01-01 12:34:35'
-        };
+    // original object should not be modified in this procedure
+    assert.notDeepEqual(newObj, originalObj);
+  });
 
-        var stringifiedFileObj = stringifyProps(fileObj);
+  it('should be able to stringify all props in an object', function() {
+    var fileObj = {
+      items: ['one', 'two', 'three'],
+      owner: {
+        name: 'eric',
+        type: 'user'
+      },
+      lastModified: '2016-01-01 12:34:35'
+    };
 
-        // original object should not be modified in this procedure
-        assert.notDeepEqual(stringifiedFileObj, fileObj);
+    var stringifiedFileObj = stringifyProps(fileObj);
 
-        // make sure JSON.stringify was properly applied to all props
-        var manualFileObj = {
-            items: JSON.stringify(fileObj.items),
-            owner: JSON.stringify(fileObj.owner),
-            lastModified: JSON.stringify(fileObj.lastModified)
-        }
-        assert.deepEqual(stringifiedFileObj, manualFileObj);
-    });
+    // original object should not be modified in this procedure
+    assert.notDeepEqual(stringifiedFileObj, fileObj);
 
-    it('should be able to parse all props in an object', function() {
-        // create stringified object
-        var fileObj = {
-            items: [
-                'one', 'two', 'three'
-            ],
-            owner: {
-                name: 'eric',
-                type: 'user'
-            },
-            lastModified: '2016-01-01 12:34:35'
-        };
+    // make sure JSON.stringify was properly applied to all props
+    var manualFileObj = {
+      items: JSON.stringify(fileObj.items),
+      owner: JSON.stringify(fileObj.owner),
+      lastModified: JSON.stringify(fileObj.lastModified)
+    };
+    assert.deepEqual(stringifiedFileObj, manualFileObj);
+  });
 
-        var stringifiedFileObj = stringifyProps(fileObj);
-        var parsedFileObj = parseProps(stringifiedFileObj);
+  it('should be able to parse all props in an object', function() {
+    // create stringified object
+    var fileObj = {
+      items: ['one', 'two', 'three'],
+      owner: {
+        name: 'eric',
+        type: 'user'
+      },
+      lastModified: '2016-01-01 12:34:35'
+    };
 
-        // make sure JSON.stringify was properly applied to all props
-        var manualFileObj = {
-            items: JSON.parse(stringifiedFileObj.items),
-            owner: JSON.parse(stringifiedFileObj.owner),
-            lastModified: JSON.parse(stringifiedFileObj.lastModified)
-        };
+    var stringifiedFileObj = stringifyProps(fileObj);
+    var parsedFileObj = parseProps(stringifiedFileObj);
 
-        assert.deepEqual(parsedFileObj, manualFileObj);
+    // make sure JSON.stringify was properly applied to all props
+    var manualFileObj = {
+      items: JSON.parse(stringifiedFileObj.items),
+      owner: JSON.parse(stringifiedFileObj.owner),
+      lastModified: JSON.parse(stringifiedFileObj.lastModified)
+    };
 
-        // the parsed version should be equal to the original
-        assert.deepEqual(parsedFileObj, fileObj);
-    });
+    assert.deepEqual(parsedFileObj, manualFileObj);
 
-    it('should be able to add a new key/value pair', function () {
-        var props = new Properties(PropertiesService);
-        var obj = { 'one': 'ONE', 'two': 'TWO' };
-        props._mapping = obj;
-        props.addMapping('three', 'THREE');
-        assert.deepEqual(props._mapping, Object.assign(obj, {'three': 'THREE'}));
-        assert.equal(props.getMapping('three'), 'THREE');
-    });
+    // the parsed version should be equal to the original
+    assert.deepEqual(parsedFileObj, fileObj);
+  });
 
-    it('should be able to run public methods via prototype', function () {
-        Properties.prototype.addMapping('three', 'THREE');
-        assert.equal(Properties.prototype.getMapping('three'), 'THREE');
-    });
+  it('should be able to add a new key/value pair', function() {
+    var props = new Properties(PropertiesService);
+    var obj = { one: 'ONE', two: 'TWO' };
+    props._mapping = obj;
+    props.addMapping('three', 'THREE');
+    assert.deepEqual(props._mapping, Object.assign(obj, { three: 'THREE' }));
+    assert.equal(props.getMapping('three'), 'THREE');
+  });
 
-    it('should be able to set and get properties from the PropertiesService', function () {
-        var props = new Properties(PropertiesService);
-        props.setServiceProperty('key1', 'value1');
-        props.setServiceProperty('key2', 'value2');
-        assert.equal(props.getServiceProperty('key1'), 'value1');
-        assert.equal(props.getServiceProperty('key2'), 'value2');
-    })
+  it('should be able to run public methods via prototype', function() {
+    Properties.prototype.addMapping('three', 'THREE');
+    assert.equal(Properties.prototype.getMapping('three'), 'THREE');
+  });
+
+  it('should be able to set and get properties from the PropertiesService', function() {
+    var props = new Properties(PropertiesService);
+    props.setServiceProperty('key1', 'value1');
+    props.setServiceProperty('key2', 'value2');
+    assert.equal(props.getServiceProperty('key1'), 'value1');
+    assert.equal(props.getServiceProperty('key2'), 'value2');
+  });
 });

@@ -4,10 +4,11 @@
   "description": "Web app to recursively copy Google Drive folder and contents",
   "main": "gulpfile.js",
   "dependencies": {
-    "ramda": "^0.23.0",
-    "sinon": "^2.1.0"
+    "ramda": "^0.23.0"
   },
   "devDependencies": {
+    "sinon": "^2.1.0",
+    "prettier": "^1.2.2",
     "browserify": "~13.0.0",
     "chai": "^3.5.0",
     "cutestrap": "^1.2.3",
@@ -38,7 +39,11 @@
     "build": "gulp build",
     "test-site": "gulp generate-test-site",
     "watch-test-site": "gulp watch-test-site",
-    "test": "mocha"
+    "test": "mocha",
+    "prettier": "prettier --write --single-quote",
+    "prettier:lib": "npm run prettier -- \"lib/*.js\" ",
+    "prettier:src": "npm run prettier -- \"src/**/*.js\" ",
+    "prettier:test": "npm run prettier -- \"test/**/*.js\" "
   },
   "repository": {
     "type": "git",
