@@ -115,18 +115,32 @@ describe('Files', function() {
     });
 
     // TODO: add these
-    it.skip(
-      'should be able to call insert files with the Drive service',
-      function() {
-        Drive.Files.list.returns(42);
-        var files = new Files(props, Drive);
-        var query = files.getFiles('testing');
-        assert.equal(Drive.Files.list.called, true);
-        // this is actually called with a more complex request body
-        // assert.equal(Drive.Files.list.calledWith('testing'), true);
-        assert.equal(query, 42);
-      }
-    );
+    it('should be able to call insert files with the Drive service', function() {
+      Drive.Files.list.returns({ items: [mock.item] });
+      var files = new Files(props, Drive);
+      var query = 'testing';
+      var list = files.getFiles(query);
+      assert.equal(
+        Drive.Files.list.calledOnce,
+        true,
+        'Drive.Files.list not called once'
+      );
+      assert.equal(
+        Drive.Files.list.calledWith({
+          q: query,
+          maxResults: 1000,
+          pageToken: files.getPageToken()
+        }),
+        true,
+        'called with incorrect arguments'
+      );
+      assert.equal(list.items.length, 1, 'return items.length not equal to 1');
+      assert.equal(
+        list.items[0].id,
+        mock.item.id,
+        'id of return item not equal to mock item'
+      );
+    });
 
     it.skip('should be able to list files with the Drive service', function() {
       var files = new Files(props, Drive);

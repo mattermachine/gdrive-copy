@@ -43,7 +43,8 @@
     "prettier": "prettier --write --single-quote",
     "prettier:lib": "npm run prettier -- \"lib/*.js\" ",
     "prettier:src": "npm run prettier -- \"src/**/*.js\" ",
-    "prettier:test": "npm run prettier -- \"test/**/*.js\" "
+    "prettier:test": "npm run prettier -- \"test/**/*.js\" ",
+    "prettier:all": "npm run prettier:lib && npm run prettier:src && npm run prettier:test"
   },
   "repository": {
     "type": "git",
