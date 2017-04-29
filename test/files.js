@@ -114,8 +114,7 @@ describe('Files', function() {
       assert.equal(files._properties.getNextRemaining(), remaining2);
     });
 
-    // TODO: add these
-    it('should be able to call insert files with the Drive service', function() {
+    it('should be able to list files with the Drive service', function() {
       Drive.Files.list.returns({ items: [mock.item] });
       var files = new Files(props, Drive);
       var query = 'testing';
@@ -140,11 +139,34 @@ describe('Files', function() {
         mock.item.id,
         'id of return item not equal to mock item'
       );
+
+      // reset sinon stub
+      Drive.Files.list.reset();
     });
 
-    it.skip('should be able to list files with the Drive service', function() {
-      var files = new Files(props, Drive);
-    });
+    // TODO: add these (and also add handling for errors)
+    it.skip(
+      'should be able to call insert files with the Drive service',
+      function() {
+        var selectedFolder = {};
+        Drive.Files.insert.returns(mock.item);
+        var files = new Files(props, Drive);
+        var destFolder = files.initializeDestinationFolder(
+          selectedFolder,
+          '01-01-2000'
+        );
+        assert.equal(
+          Drive.Files.insert.calledOnce,
+          true,
+          'insert not called once'
+        );
+        assert.equal(
+          destFolder.id,
+          mock.id,
+          'returned file resource does not match mock'
+        );
+      }
+    );
 
     it.skip('should be able to copy files with the Drive service', function() {
       var files = new Files(props, Drive);
