@@ -25,6 +25,17 @@ var Drive = {
   }
 };
 
+var DriveApp = {
+  getRootFolder: function() {
+    return this;
+  },
+  getId: sinon.stub(),
+  getFolderById: sinon.stub(),
+  createFile: sinon.stub()
+};
+
+var selectedFolder = {};
+
 // https://developers.google.com/drive/v2/reference/files/get
 var item = {
   kind: 'drive#file',
@@ -117,5 +128,7 @@ var item = {
 
 module.exports.PropertiesService = PropertiesService;
 module.exports.Drive = Drive;
+module.exports.DriveApp = DriveApp;
+module.exports.selectedFolder = selectedFolder;
 module.exports.item = item;
 module.exports.file = item; // convenience export

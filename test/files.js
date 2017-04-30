@@ -3,8 +3,6 @@ var R = require('ramda');
 var Files = require('../lib/files').Files;
 var Properties = require('../lib/properties').Properties;
 var mock = require('./mock');
-var PropertiesService = mock.PropertiesService;
-var Drive = mock.Drive;
 
 var sinon = require('sinon');
 
@@ -49,11 +47,12 @@ describe('Files', function() {
     });
   });
 
+  // TODO: add these (and also add handling for errors)
   describe('Drive API calls', function() {
-    var props = new Properties(PropertiesService);
-    var item = mock.item;
+    var props = new Properties(mock.PropertiesService);
 
     it('should build parameters correctly', function() {
+      var item = mock.item;
       var files = new Files(props);
       var body = files._arrangeRequestBody(item);
       assert.equal(body.description, item.description);
@@ -114,62 +113,81 @@ describe('Files', function() {
       assert.equal(files._properties.getNextRemaining(), remaining2);
     });
 
-    it('should be able to list files with the Drive service', function() {
-      Drive.Files.list.returns({ items: [mock.item] });
-      var files = new Files(props, Drive);
-      var query = 'testing';
-      var list = files.getFiles(query);
-      assert.equal(
-        Drive.Files.list.calledOnce,
-        true,
-        'Drive.Files.list not called once'
-      );
-      assert.equal(
-        Drive.Files.list.calledWith({
-          q: query,
-          maxResults: 1000,
-          pageToken: files.getPageToken()
-        }),
-        true,
-        'called with incorrect arguments'
-      );
-      assert.equal(list.items.length, 1, 'return items.length not equal to 1');
-      assert.equal(
-        list.items[0].id,
-        mock.item.id,
-        'id of return item not equal to mock item'
-      );
+    describe('Drive.Files.list', function() {
+      it('should be able to list files with the Drive service', function() {
+        mock.Drive.Files.list.returns({ items: [mock.item] });
+        var files = new Files(props, mock.Drive);
+        var query = 'testing';
+        var list = files.getFiles(query);
+        assert.equal(
+          mock.Drive.Files.list.calledOnce,
+          true,
+          'Drive.Files.list not called once'
+        );
+        assert.equal(
+          mock.Drive.Files.list.calledWith({
+            q: query,
+            maxResults: 1000,
+            pageToken: files.getPageToken()
+          }),
+          true,
+          'called with incorrect arguments'
+        );
+        assert.equal(
+          list.items.length,
+          1,
+          'return items.length not equal to 1'
+        );
+        assert.equal(
+          list.items[0].id,
+          mock.item.id,
+          'id of return item not equal to mock item'
+        );
 
-      // reset sinon stub
-      Drive.Files.list.reset();
+        // reset sinon stub
+        mock.Drive.Files.list.reset();
+      });
     });
 
-    // TODO: add these (and also add handling for errors)
-    it.skip(
-      'should be able to call insert files with the Drive service',
-      function() {
-        var selectedFolder = {};
-        Drive.Files.insert.returns(mock.item);
-        var files = new Files(props, Drive);
+    describe('Drive.Files.insert', function() {
+      it('should be able to call insert files with the Drive service', function() {
+        mock.Drive.Files.insert.returns(mock.item);
+        var files = new Files(props, mock.Drive);
         var destFolder = files.initializeDestinationFolder(
-          selectedFolder,
+          mock.DriveApp,
+          mock.selectedFolder,
           '01-01-2000'
         );
         assert.equal(
-          Drive.Files.insert.calledOnce,
+          mock.Drive.Files.insert.calledOnce,
           true,
           'insert not called once'
         );
         assert.equal(
           destFolder.id,
-          mock.id,
+          mock.item.id,
           'returned file resource does not match mock'
         );
-      }
-    );
+
+        // reset sinon stub
+        mock.Drive.Files.insert.reset();
+      });
+
+      // TODO: this test works, but really doesn't ensure that the app will fail gracefully, only this one function
+      it('should fail gracefully', function() {
+        mock.Drive.Files.insert.throws();
+        var files = new Files(props, mock.Drive);
+        var error = files.initializeDestinationFolder(
+          mock.DriveApp,
+          mock.selectedFolder,
+          '01-01-2000'
+        );
+        assert.equal(error.message, 'Error', 'return value is not an error');
+      });
+    });
 
     it.skip('should be able to copy files with the Drive service', function() {
-      var files = new Files(props, Drive);
+      var files = new Files(props, mock.Drive);
     });
   });
 });
