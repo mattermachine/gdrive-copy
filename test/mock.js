@@ -34,7 +34,13 @@ var DriveApp = {
   createFile: sinon.stub()
 };
 
-var selectedFolder = {};
+var selectedFolder = {
+  srcId: '',
+  srcParentId: '',
+  destName: '',
+  permissions: '',
+  srcName: ''
+};
 
 // https://developers.google.com/drive/v2/reference/files/get
 var item = {
