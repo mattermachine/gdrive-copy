@@ -145,6 +145,7 @@ export default class Resume extends React.Component {
         })
         .withFailureHandler(function(err) {
           _this.showError(err.message);
+          console.log(err);
         })
         .resume(_this.state);
     } else {
